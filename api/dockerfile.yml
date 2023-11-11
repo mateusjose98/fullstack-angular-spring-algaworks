@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  db:
+    container_name: pg_algamoney
+    image: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: db_algamoney
+      PGDATA: /data/postgres
+    ports:
+      - "5431:5432"
+    volumes:
+      - postgres:/data/postgres
+volumes:
+  postgres:

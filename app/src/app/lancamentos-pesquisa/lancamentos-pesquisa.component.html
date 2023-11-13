@@ -1,0 +1,84 @@
+<div class="container">
+  <div class="grid">
+    <div class="col-12">
+      <h1>Lançamentos</h1>
+    </div>
+    <div class="col-12">
+      <label for="descricao">Descrição</label>
+      <input class="w-full" pInputText type="text" id="descricao" />
+    </div>
+    <div class="col-12">
+      <label class="block">Vencimento</label>
+      <input pInputText type="text" style="width: 95px" />
+      <label for=""> até </label>
+      <input pInputText type="text" style="width: 95px" />
+    </div>
+    <div class="col-12">
+      <button pButton type="submit" label="Pesquisar"></button>
+    </div>
+  </div>
+  <div class="grid">
+    <div class="col-12">
+      <p-table
+        [paginator]="true"
+        [rows]="5"
+        responsiveLayout="stack"
+        [value]="lancamentos"
+        dataKey="pessoa"
+        [showCurrentPageReport]="true"
+        currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} lancamentos"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Pessoa</th>
+            <th class="col-data">Descrição</th>
+            <th class="col-data">Vencimento</th>
+            <th>Pagamento</th>
+            <th class="col-valor">Valor</th>
+            <th class="col-acoes"></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-lancamento>
+          <tr>
+            <td class="col-pessoa">
+              <span class="p-column-title">Pessoa</span>{{ lancamento.pessoa }}
+            </td>
+            <td>
+              <span class="p-column-title">Desc.</span
+              >{{ lancamento.descricao }}
+            </td>
+            <td class="col-data">
+              <span class="p-column-title">Venc.</span
+              >{{ lancamento.dataVencimento | date : "dd/MM/yyyy" }}
+            </td>
+            <td class="col-data">
+              <span class="p-column-title">Pgto.</span
+              >{{ lancamento.dataPagamento | date : "dd/MM/yyyy" }}
+            </td>
+            <td
+              class="col-valor"
+              [ngStyle]="{
+                color: lancamento.tipo === 'DESPESA' ? 'red' : 'blue'
+              }"
+            >
+              <span class="p-column-title">Valor</span
+              >{{ lancamento.valor | currency : "BRL" }}
+            </td>
+            <td class="col-acoes">
+              <span class="p-column-title">Ações</span>
+              <a pTooltip="Editar" tooltipPosition="top" pButton
+                ><i class="pi pi-pencil"></i
+              ></a>
+              <a pTooltip="Excluir" tooltipPosition="top" pButton
+                ><i class="pi pi-trash"></i
+              ></a>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <div class="col-12">
+      <a pButton label="Novo lançamento"></a>
+    </div>
+  </div>
+</div>

@@ -3,30 +3,52 @@
     <div class="col-12">
       <h1>Lançamentos</h1>
     </div>
-    <div class="col-12">
-      <label for="descricao">Descrição</label>
-      <input class="w-full" pInputText type="text" id="descricao" />
-    </div>
-    <div class="col-12">
-      <label class="block">Vencimento</label>
-      <input pInputText type="text" style="width: 95px" />
-      <label for=""> até </label>
-      <input pInputText type="text" style="width: 95px" />
-    </div>
-    <div class="col-12">
-      <button pButton type="submit" label="Pesquisar"></button>
-    </div>
+    <form autocomplete="off" (ngSubmit)="pesquisar()">
+      <div class="col-12">
+        <label for="descricao">Descrição</label>
+        <input
+          name="descricao"
+          [(ngModel)]="filtro.descricao"
+          class="w-full"
+          pInputText
+          type="text"
+          id="descricao"
+        />
+      </div>
+      <div class="col-12">
+        <label class="block">Vencimento</label>
+        <p-calendar
+          name="dataVencimentoDe"
+          [(ngModel)]="filtro.dataVencimentoDe"
+          dateFormat="dd/mm/yy"
+          [showIcon]="true"
+        ></p-calendar>
+        <label for=""> até </label>
+        <p-calendar
+          [(ngModel)]="filtro.dataVencimentoAte"
+          name="dataVencimentoAte"
+          dateFormat="dd/mm/yy"
+          [showIcon]="true"
+        ></p-calendar>
+      </div>
+      <div class="col-12">
+        <button pButton type="submit" label="Pesquisar"></button>
+      </div>
+    </form>
   </div>
   <div class="grid">
     <div class="col-12">
       <p-table
         [paginator]="true"
-        [rows]="5"
+        [lazy]="true"
+        [rows]="filtro.itensPorPagina"
         responsiveLayout="stack"
         [value]="lancamentos"
         dataKey="pessoa"
         [showCurrentPageReport]="true"
-        currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} lancamentos"
+        [totalRecords]="totalRegistros"
+        (onLazyLoad)="aoMudarPagina($event)"
+        currentPageReportTemplate="Total {totalRecords} lancamentos"
       >
         <ng-template pTemplate="header">
           <tr>

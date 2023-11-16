@@ -1,0 +1,131 @@
+<div class="container">
+  <form>
+    <div class="grid">
+      <div class="col-12">
+        <h1>Novo lançamento</h1>
+      </div>
+
+      <div class="col-12">
+        <p-selectButton
+          #tipo
+          [options]="tipos"
+          optionLabel="label"
+          optionValue="value"
+        ></p-selectButton>
+      </div>
+
+      <div class="col-6 md:col-3">
+        <label>Vencimento </label>
+        <p-calendar
+          ngModel
+          name="dataVencimento"
+          #dataVencimento="ngModel"
+          [required]="true"
+          dateFormat="dd/mm/yy"
+          [showIcon]="true"
+        ></p-calendar>
+        <app-message
+          class="block"
+          [control]="dataVencimento"
+          error="required"
+          text="Campo obrigatório!"
+        ></app-message>
+      </div>
+      <div class="col-6 md:col-3 sm:col-offset-4">
+        <label>{{
+          tipo.value == "RECEITA" ? "Recebimento" : "Pagamento"
+        }}</label>
+        <p-calendar dateFormat="dd/mm/yy" [showIcon]="true"></p-calendar>
+      </div>
+      <div class="col-12 md:col-6">
+        <label>Descricao</label>
+        <input
+          name="descricao"
+          ngModel
+          #descricao="ngModel"
+          class="w-full p-invalid"
+          pInputText
+          type="text"
+          required
+          minlength="5"
+        />
+        <app-message
+          [control]="descricao"
+          error="required"
+          text="Campo obrigatório!"
+        ></app-message>
+        <app-message
+          [control]="descricao"
+          error="minlength"
+          text="Campo precisa de um tamanho mínimo de {{
+            descricao.errors?.['minlength']?.requiredLength
+
+          }}!"
+        ></app-message>
+      </div>
+      <div class="col-12 md:col-6">
+        <label>Valor </label>
+        <input
+          required
+          currencyMask
+          class="w-full"
+          placeholder="0,00"
+          pInputText
+          name="valor"
+          #valor="ngModel"
+          ngModel
+          type="text"
+          [options]="{
+            prefix: '',
+            thousands: '.',
+            decimal: ',',
+            allowNegative: false
+          }"
+        />
+        <app-message
+          [control]="valor"
+          error="required"
+          text="Campo obrigatório!"
+        ></app-message>
+      </div>
+      <div class="col-12">
+        <label>Categoria </label>
+        <p-dropdown
+          [style]="{ width: '100%' }"
+          [options]="categorias"
+          optionLabel="label"
+          placeholder="Selecione uma categoria"
+          ngModel
+          name="categoria"
+          #categoria="ngModel"
+          [required]="true"
+        ></p-dropdown>
+        <app-message
+          class="block"
+          [control]="categoria"
+          error="required"
+          text="Campo obrigatório!"
+        ></app-message>
+      </div>
+      <div class="col-12">
+        <label>Pessoa </label>
+        <p-dropdown
+          class="w-full"
+          [style]="{ width: '100%' }"
+          [options]="pessoas"
+          optionLabel="label"
+          placeholder="Selecione uma pessoa"
+        ></p-dropdown>
+      </div>
+      <div class="col-12">
+        <label>Observação </label>
+        <textarea class="w-full" pInputTextarea rows="6"></textarea>
+      </div>
+      <div class="col-12">
+        <button type="submit" label="Salvar" pButton></button>
+        <button class="ml-1" label="Novo" pButton></button>
+        <a class="ml-2" href="#">Voltar para a pesquisa</a>
+      </div>
+    </div>
+  </form>
+</div>

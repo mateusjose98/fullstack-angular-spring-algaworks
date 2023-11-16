@@ -33,7 +33,7 @@ public class Lancamento {
     private String obs;
 
     @Enumerated(EnumType.STRING)
-    @NotEmpty
+    @NotNull
     private TipoLancamento tipo;
 
     @ManyToOne

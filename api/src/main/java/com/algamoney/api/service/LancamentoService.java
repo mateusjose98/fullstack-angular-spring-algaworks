@@ -18,7 +18,7 @@ public class LancamentoService {
 
     public Lancamento salvar(Lancamento lancamento) {
         var pessoa = pessoaRepository.findById(lancamento.getPessoa().getId());
-        if(pessoa.isEmpty() || !pessoa.get().isAtivo()) {
+        if (pessoa.isEmpty() || !pessoa.get().isAtivo()) {
             throw new PessoaInexistenteOuInativaException("Pessoa inativa ou não existe");
         }
 
@@ -35,7 +35,7 @@ public class LancamentoService {
         return lancamentoRepository.save(lancamentoSalvo);
     }
 
-    private Lancamento buscarLancamentoExistente(Long id) {
+    public Lancamento buscarLancamentoExistente(Long id) {
         return lancamentoRepository.findById(id).orElseThrow(IllegalArgumentException::new);
     }
 

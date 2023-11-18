@@ -1,22 +1,54 @@
 <div class="container">
+  <p-toast></p-toast>
+  <p-confirmDialog #cd [style]="{ width: '50vw' }">
+    <ng-template pTemplate="footer">
+      <button
+        type="button"
+        pButton
+        icon="pi pi-times"
+        label="Sim"
+        (click)="cd.accept()"
+      ></button>
+      <button
+        type="button"
+        pButton
+        icon="pi pi-check"
+        label="Não"
+        (click)="cd.reject()"
+      ></button>
+    </ng-template>
+  </p-confirmDialog>
   <div class="grid">
     <div class="col-12">
       <h1>Pessoas</h1>
     </div>
-    <div class="col-12">
-      <label for="descricao">Nome</label>
-      <input class="w-full" pInputText type="text" id="nome" />
-    </div>
+    <form (ngSubmit)="pesquisar(0)">
+      <div class="col-12">
+        <label for="descricao">Nome</label>
+        <input
+          class="w-full"
+          pInputText
+          type="text"
+          id="nome"
+          name="nome"
+          [(ngModel)]="nome"
+        />
+      </div>
 
-    <div class="col-12">
-      <button pButton type="submit" label="Pesquisar"></button>
-    </div>
+      <div class="col-12">
+        <button pButton type="submit" label="Pesquisar"></button>
+      </div>
+    </form>
   </div>
   <div class="grid">
     <div class="col-12">
       <p-table
+        #tabela
+        [lazy]="true"
+        (onLazyLoad)="aoMudarPagina($event)"
         [paginator]="true"
         [rows]="5"
+        [totalRecords]="totalRegistros"
         responsiveLayout="stack"
         [value]="pessoas"
         dataKey="id"
@@ -38,10 +70,12 @@
               <span class="p-column-title">Nome</span>{{ pessoa.nome }}
             </td>
             <td>
-              <span class="p-column-title">Cidade</span>{{ pessoa.cidade }}
+              <span class="p-column-title">Cidade</span
+              >{{ pessoa.endereco.cidade }}
             </td>
             <td class="col-data">
-              <span class="p-column-title">Estado</span>{{ pessoa.estado }}
+              <span class="p-column-title">Estado</span
+              >{{ pessoa.endereco.estado }}
             </td>
             <td class="col-data">
               <span class="p-column-title">Status.</span
@@ -53,7 +87,11 @@
               <a pTooltip="Editar" tooltipPosition="top" pButton
                 ><i class="pi pi-pencil"></i
               ></a>
-              <a pTooltip="Excluir" tooltipPosition="top" pButton
+              <a
+                (click)="excluir(pessoa.id)"
+                pTooltip="Excluir"
+                tooltipPosition="top"
+                pButton
                 ><i class="pi pi-trash"></i
               ></a>
             </td>

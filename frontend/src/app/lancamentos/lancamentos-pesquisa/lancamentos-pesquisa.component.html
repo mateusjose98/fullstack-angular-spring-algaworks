@@ -1,4 +1,23 @@
 <div class="container">
+  <p-toast></p-toast>
+  <p-confirmDialog #cd [style]="{ width: '50vw' }">
+    <ng-template pTemplate="footer">
+      <button
+        type="button"
+        pButton
+        icon="pi pi-times"
+        label="Sim"
+        (click)="cd.accept()"
+      ></button>
+      <button
+        type="button"
+        pButton
+        icon="pi pi-check"
+        label="Não"
+        (click)="cd.reject()"
+      ></button>
+    </ng-template>
+  </p-confirmDialog>
   <div class="grid">
     <div class="col-12">
       <h1>Lançamentos</h1>
@@ -49,6 +68,7 @@
         [totalRecords]="totalRegistros"
         (onLazyLoad)="aoMudarPagina($event)"
         currentPageReportTemplate="Total {totalRecords} lancamentos"
+        #tabela
       >
         <ng-template pTemplate="header">
           <tr>
@@ -91,7 +111,11 @@
               <a pTooltip="Editar" tooltipPosition="top" pButton
                 ><i class="pi pi-pencil"></i
               ></a>
-              <a pTooltip="Excluir" tooltipPosition="top" pButton
+              <a
+                pTooltip="Excluir"
+                (click)="excluir(lancamento.id)"
+                tooltipPosition="top"
+                pButton
                 ><i class="pi pi-trash"></i
               ></a>
             </td>

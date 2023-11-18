@@ -40,4 +40,8 @@ export class LancamentoService {
     }
     return this.http.get(`${this.lancamentoUrl}/resumo`, { params });
   }
+
+  excluir(codigo: number): Observable<void> {
+    return this.http.delete<void>(`${this.lancamentoUrl}/${codigo}`);
+  }
 }

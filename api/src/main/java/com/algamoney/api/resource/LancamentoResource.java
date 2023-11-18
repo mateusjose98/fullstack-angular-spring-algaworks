@@ -3,7 +3,6 @@ package com.algamoney.api.resource;
 import com.algamoney.api.event.RecursoCriadoEvent;
 import com.algamoney.api.exceptionhandler.AlgaMoneyExceptionHandler;
 import com.algamoney.api.model.Lancamento;
-import com.algamoney.api.model.Pessoa;
 import com.algamoney.api.repository.LancamentoRepository;
 import com.algamoney.api.repository.filter.LancamentoFilter;
 import com.algamoney.api.repository.projection.ResumoLancamento;
@@ -19,10 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("lancamentos")
@@ -40,6 +36,7 @@ public class LancamentoResource {
         return l.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
 
     }
+
     @GetMapping
     public ResponseEntity<Page<Lancamento>> pesquisar(LancamentoFilter filter, Pageable pageable) {
         var l = lancamentoRepository.filtrar(filter, pageable);
@@ -57,7 +54,7 @@ public class LancamentoResource {
 
     @PostMapping
     public ResponseEntity<Lancamento> criar(@Valid @RequestBody
-                                                Lancamento lancamento, HttpServletResponse response) {
+                                            Lancamento lancamento, HttpServletResponse response) {
         Lancamento saved = lancamentoService.salvar(lancamento);
         publisher.publishEvent(new RecursoCriadoEvent(this, response, saved.getId()));
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
@@ -77,8 +74,15 @@ public class LancamentoResource {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void remover(@PathVariable Long id) {
-        lancamentoRepository.deleteById(id);
+    public ResponseEntity<?> remover(@PathVariable Long id) {
+        try {
+            lancamentoService.buscarLancamentoExistente(id);
+            lancamentoRepository.deleteById(id);
+            return ResponseEntity.noContent().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        }
+
     }
 
     @PutMapping("/{id}")

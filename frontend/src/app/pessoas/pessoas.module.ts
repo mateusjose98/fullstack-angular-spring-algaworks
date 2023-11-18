@@ -18,6 +18,8 @@ import { DropdownModule } from 'primeng/dropdown';
 import { InputMaskModule } from 'primeng/inputmask';
 
 import { SharedModule } from '../shared/shared.module';
+import { ToastModule } from 'primeng/toast';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @NgModule({
   declarations: [PessoaCadastroComponent, PessoasPesquisaComponent],
@@ -37,7 +39,10 @@ import { SharedModule } from '../shared/shared.module';
     DropdownModule,
     InputMaskModule,
     SharedModule,
+    ToastModule,
+    ConfirmDialogModule,
   ],
   exports: [PessoaCadastroComponent, PessoasPesquisaComponent],
+  providers: [],
 })
 export class PessoasModule {}

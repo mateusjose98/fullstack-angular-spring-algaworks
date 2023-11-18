@@ -1,59 +1,71 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { PessoaService } from '../pessoa.service';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ErrorHandlerService } from 'src/app/core/error-handler.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Table, TableLazyLoadEvent } from 'primeng/table';
 
 @Component({
   selector: 'app-pessoas-pesquisa',
   templateUrl: './pessoas-pesquisa.component.html',
   styleUrls: ['./pessoas-pesquisa.component.css'],
+  providers: [ConfirmationService],
 })
 export class PessoasPesquisaComponent {
-  pessoas = [
-    {
-      nome: 'José Silva',
-      cidade: 'São Paulo',
-      estado: 'SP',
-      status: true,
-    },
-    {
-      nome: 'Maria Oliveira',
-      cidade: 'Rio de Janeiro',
-      estado: 'RJ',
-      status: false,
-    },
-    {
-      nome: 'João Santos',
-      cidade: 'Belo Horizonte',
-      estado: 'MG',
-      status: true,
-    },
-    {
-      nome: 'Ana Souza',
-      cidade: 'Salvador',
-      estado: 'BA',
-      status: false,
-    },
-    {
-      nome: 'Carlos Lima',
-      cidade: 'Porto Alegre',
-      estado: 'RS',
-      status: true,
-    },
-    {
-      nome: 'Rafaela Costa',
-      cidade: 'Recife',
-      estado: 'PE',
-      status: false,
-    },
-    {
-      nome: 'Patricia Ferreira',
-      cidade: 'Fortaleza',
-      estado: 'CE',
-      status: true,
-    },
-    {
-      nome: 'Fernando Oliveira',
-      cidade: 'Manaus',
-      estado: 'AM',
-      status: false,
-    },
-  ];
+  nome: string = '';
+  pessoas = [];
+  totalRegistros = 0;
+  @ViewChild('tabela') private grid!: Table;
+
+  constructor(
+    private service: PessoaService,
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService,
+    private errorService: ErrorHandlerService
+  ) {}
+
+  pesquisar(pagina: number) {
+    this.service.pesquisar({ nome: this.nome, pagina }).subscribe((res) => {
+      this.pessoas = res.content;
+      this.totalRegistros = res.totalElements;
+    });
+    console.log(this.pessoas);
+  }
+
+  aoMudarPagina(event: TableLazyLoadEvent) {
+    if (event.first != null && event.rows != null) {
+      const pagina = event.first / event.rows;
+      this.pesquisar(pagina);
+    }
+  }
+
+  excluir(id: number) {
+    this.confirmationService.confirm({
+      acceptLabel: 'Sim',
+      rejectLabel: 'Não',
+      message: 'Certeza que quer excluir?',
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.service.excluir(id).subscribe({
+          next: () => {
+            this.grid.first = 0;
+            this.pesquisar(0);
+            this.sucesso(id);
+          },
+          error: (error: HttpErrorResponse) => {
+            this.errorService.handle(error);
+          },
+        });
+      },
+    });
+  }
+
+  sucesso(id: number) {
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Success',
+      detail: 'Pessoa excluída: ' + id,
+    });
+  }
 }

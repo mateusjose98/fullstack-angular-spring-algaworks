@@ -14,9 +14,10 @@ import { CalendarModule } from 'primeng/calendar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DropdownModule } from 'primeng/dropdown';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
-
+import { ToastModule } from 'primeng/toast';
 import { SharedModule } from '../shared/shared.module';
-
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { MessageService } from 'primeng/api';
 @NgModule({
   declarations: [LancamentoCadastroComponent, LancamentosPesquisaComponent],
   exports: [LancamentoCadastroComponent, LancamentosPesquisaComponent],
@@ -36,6 +37,9 @@ import { SharedModule } from '../shared/shared.module';
     DropdownModule,
     CurrencyMaskModule,
     SharedModule,
+    ToastModule,
+    ConfirmDialogModule,
   ],
+  providers: [MessageService],
 })
 export class LancamentosModule {}

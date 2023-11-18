@@ -18,6 +18,7 @@ import { ToastModule } from 'primeng/toast';
 import { SharedModule } from '../shared/shared.module';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { MessageService } from 'primeng/api';
+import { CategoriaService } from '../categorias/categoria.service';
 @NgModule({
   declarations: [LancamentoCadastroComponent, LancamentosPesquisaComponent],
   exports: [LancamentoCadastroComponent, LancamentosPesquisaComponent],
@@ -40,6 +41,6 @@ import { MessageService } from 'primeng/api';
     ToastModule,
     ConfirmDialogModule,
   ],
-  providers: [MessageService],
+  providers: [MessageService, CategoriaService],
 })
 export class LancamentosModule {}

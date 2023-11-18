@@ -26,8 +26,8 @@ public class PessoaResource {
     final ApplicationEventPublisher publisher;
 
     @GetMapping
-    public ResponseEntity<Page<Pessoa>> listar(PessoaFilter filter, Pageable pageable) {
-        Page<Pessoa> all = pessoaRepository.filtrar(filter, pageable);
+    public ResponseEntity<Page<Pessoa>> listar(PessoaFilter filter, Pageable pageable, @RequestParam(defaultValue = "true") boolean devePaginar) {
+        Page<Pessoa> all = pessoaRepository.filtrar(filter, pageable, devePaginar);
         return ResponseEntity.ok(all);
     }
 

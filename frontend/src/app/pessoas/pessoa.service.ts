@@ -11,9 +11,15 @@ export class PessoaService {
 
   pesquisar(filtro: any): Observable<any> {
     let params = new HttpParams();
-    params = params.set('nome', filtro.nome);
-    params = params.set('page', filtro.pagina);
+    if( filtro.nome) {
+      params = params.set('nome', filtro.nome);
+    }
+    if( filtro.pagina) {
+      params = params.set('page', filtro.pagina);
+    }
+
     params = params.set('size', 5);
+    params = params.set('devePaginar', filtro.devePaginar);
     return this.http.get(this.url, { params });
   }
 

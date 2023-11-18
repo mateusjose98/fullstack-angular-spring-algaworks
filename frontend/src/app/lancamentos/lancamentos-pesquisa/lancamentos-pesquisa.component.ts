@@ -8,6 +8,7 @@ import {
 import { Table, TableLazyLoadEvent } from 'primeng/table';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorHandlerService } from 'src/app/core/error-handler.service';
+import { CategoriaService } from 'src/app/categorias/categoria.service';
 
 @Component({
   selector: 'app-lancamentos-pesquisa',
@@ -19,6 +20,7 @@ export class LancamentosPesquisaComponent implements OnInit {
   lancamentos = [];
   filtro = new LancamentoFiltro();
   totalRegistros = 0;
+  categorias: any = [];
   @ViewChild('tabela') private grid!: Table;
 
   constructor(

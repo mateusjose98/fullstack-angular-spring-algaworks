@@ -26,12 +26,14 @@ export class PessoasPesquisaComponent {
   ) {}
 
   pesquisar(pagina: number) {
-    this.service.pesquisar({ nome: this.nome, pagina }).subscribe((res) => {
-      this.pessoas = res.content;
-      this.totalRegistros = res.totalElements;
-      console.log(res.number);
-      this.paginaAtual = res.number;
-    });
+    this.service
+      .pesquisar({ nome: this.nome, pagina, devePaginar: true })
+      .subscribe((res) => {
+        this.pessoas = res.content;
+        this.totalRegistros = res.totalElements;
+
+        this.paginaAtual = res.number;
+      });
   }
 
   ativar(id: number, deveAtivar: boolean) {

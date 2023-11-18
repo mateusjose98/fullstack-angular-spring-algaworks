@@ -20,6 +20,7 @@ a {
 label {
   font-weight: bold;
   padding: 1px;
+  margin-bottom: 2px !important;
 }
 
 .container {

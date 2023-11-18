@@ -20,7 +20,7 @@ public class PessoaRepositoryImpl implements PessoaRepositoryQuery {
     private EntityManager manager;
 
     @Override
-    public Page<Pessoa> filtrar(PessoaFilter filter, Pageable pageable) {
+    public Page<Pessoa> filtrar(PessoaFilter filter, Pageable pageable, boolean devePaginar) {
         CriteriaBuilder builder = manager.getCriteriaBuilder();
         CriteriaQuery<Pessoa> criteriaQuery = builder.createQuery(Pessoa.class);
         Root<Pessoa> root = criteriaQuery.from(Pessoa.class);
@@ -29,7 +29,10 @@ public class PessoaRepositoryImpl implements PessoaRepositoryQuery {
         orderList.add(builder.desc(root.get("id")));
         criteriaQuery.where(predicates).orderBy(orderList);
         TypedQuery<Pessoa> query = manager.createQuery(criteriaQuery);
-        adicionarRestricoesPaginacao(query, pageable);
+        if (devePaginar) {
+            adicionarRestricoesPaginacao(query, pageable);
+        }
+
         return new PageImpl<>(query.getResultList(), pageable, total(filter));
     }
 

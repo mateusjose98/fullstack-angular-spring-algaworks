@@ -9,9 +9,9 @@ import { CoreModule } from './core/core.module';
 import { HttpClientModule } from '@angular/common/http';
 import { registerLocaleData } from '@angular/common';
 import { MessageService } from 'primeng/api';
-import { ToastModule } from 'primeng/toast';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { AppRoutingModule } from './app.routing.module';
 registerLocaleData(localePt);
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -20,6 +20,7 @@ registerLocaleData(localePt);
     CoreModule,
     LancamentosModule,
     PessoasModule,
+    AppRoutingModule,
   ],
   providers: [
     MessageService,

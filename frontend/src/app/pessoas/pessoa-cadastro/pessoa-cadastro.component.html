@@ -1,5 +1,6 @@
 <div class="container">
-  <form>
+  <p-toast></p-toast>
+  <form autocomplete="off" #f="ngForm" (ngSubmit)="salvar(f)">
     <div class="grid">
       <div class="col-12">
         <h1>Nova pessoa</h1>
@@ -7,27 +8,67 @@
 
       <div class="col-12">
         <label>Nome </label>
-        <input class="w-full" pInputText />
+        <input
+          name="nome"
+          required
+          [(ngModel)]="pessoa.nome"
+          class="w-full"
+          pInputText
+          #pessoaNome="ngModel"
+        />
+        <app-message
+          class="block"
+          [control]="pessoaNome"
+          error="required"
+          text="Campo nome obrigatório!"
+        ></app-message>
       </div>
+
       <div class="col-10">
         <label>Logradouro </label>
-        <input class="w-full" pInputText />
+        <input
+          name="logradouro"
+          [(ngModel)]="pessoa.endereco.logradouro"
+          class="w-full"
+          pInputText
+        />
       </div>
+
       <div class="col-2">
         <label>Número </label>
-        <input class="w-full" pInputText />
+        <input
+          name="numero"
+          [(ngModel)]="pessoa.endereco.numero"
+          class="w-full"
+          pInputText
+        />
       </div>
+
       <div class="col-4">
         <label>Complemento </label>
-        <input class="w-full" pInputText />
+        <input
+          name="complemento"
+          [(ngModel)]="pessoa.endereco.complemento"
+          class="w-full"
+          pInputText
+        />
       </div>
+
       <div class="col-4">
         <label>Bairro </label>
-        <input class="w-full" pInputText />
+        <input
+          name="bairro"
+          [(ngModel)]="pessoa.endereco.bairro"
+          class="w-full"
+          pInputText
+        />
       </div>
+
       <div class="col-4">
         <label>CEP </label>
         <p-inputMask
+          name="cep"
+          [(ngModel)]="pessoa.endereco.cep"
           class="w-full"
           mask="99.999-999"
           placeholder="99.999-999"
@@ -36,17 +77,28 @@
 
       <div class="col-6">
         <label>Cidade </label>
-        <input class="w-full" pInputText />
+        <input
+          name="cidade"
+          [(ngModel)]="pessoa.endereco.cidade"
+          class="w-full"
+          pInputText
+        />
       </div>
+
       <div class="col-6">
         <label>Estado </label>
-        <input class="w-full" pInputText />
+        <input
+          name="estado"
+          [(ngModel)]="pessoa.endereco.estado"
+          class="w-full"
+          pInputText
+        />
       </div>
 
       <div class="col-12">
         <button type="submit" label="Salvar" pButton></button>
         <button class="ml-1" label="Novo" pButton></button>
-        <a class="ml-2" href="#">Voltar para a pesquisa</a>
+        <a class="ml-2"  [routerLink]="['/pessoas']">Voltar para a pesquisa</a>
       </div>
     </div>
   </form>

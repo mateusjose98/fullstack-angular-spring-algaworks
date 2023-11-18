@@ -9,6 +9,7 @@ import { Table, TableLazyLoadEvent } from 'primeng/table';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorHandlerService } from 'src/app/core/error-handler.service';
 import { CategoriaService } from 'src/app/categorias/categoria.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-lancamentos-pesquisa',
@@ -27,9 +28,12 @@ export class LancamentosPesquisaComponent implements OnInit {
     private lancamentosService: LancamentoService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private errorService: ErrorHandlerService
+    private errorService: ErrorHandlerService,
+    private title: Title
   ) {}
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.title.setTitle('Lançamentos');
+  }
   pesquisar(pagina = 0) {
     this.filtro.pagina = pagina;
     this.lancamentosService.pesquisar(this.filtro).subscribe({

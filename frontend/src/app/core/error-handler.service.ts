@@ -5,12 +5,30 @@ import { MessageService } from 'primeng/api';
 export class ErrorHandlerService {
   constructor(private messageService: MessageService) {}
 
+  errorMap: any = {
+    404: 'Recurso não encontrado',
+    500: 'Erro interno desconhecido',
+    403: 'Recurso não pode ser acessado por falta de permissão',
+  };
+
   handle(error: any) {
     if (typeof error === 'string') {
       this.showError(error);
     } else if (typeof error === 'object') {
       if (error instanceof HttpErrorResponse) {
-        this.showError(`[${error.status}] ${error.error.msgUsuario}`);
+        if (error.error instanceof Array) {
+          for (let e of error.error) {
+            this.showError(`[${error.status}] ${e.msgUsuario}`);
+          }
+        } else {
+          this.showError(
+            `[${error.status}] ${
+              error.error?.msgUsuario
+                ? error.error?.msgUsuario
+                : this.errorMap[error.status]
+            }`
+          );
+        }
       } else {
         this.showError();
       }

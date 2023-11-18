@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PessoaCadastroComponent } from './pessoa-cadastro/pessoa-cadastro.component';
-import { PessoasPesquisaComponent } from './pessoas-pesquisa/pessoas-pesquisa.component';
+import PessoasPesquisaComponent from './pessoas-pesquisa/pessoas-pesquisa.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { MenubarModule } from 'primeng/menubar';
@@ -41,9 +41,9 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     SharedModule,
     ToastModule,
     ConfirmDialogModule,
-    TagModule
+    TagModule,
   ],
-  exports: [PessoaCadastroComponent, PessoasPesquisaComponent],
+  // exports: [PessoaCadastroComponent, PessoasPesquisaComponent],
   providers: [],
 })
 export class PessoasModule {}

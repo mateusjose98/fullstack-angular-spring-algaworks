@@ -38,3 +38,8 @@
   color: #c0bbb7;
   text-decoration: none;
 }
+
+.navbar-menu-item.ativo {
+  background-color: #494541;
+  border-bottom: 1px solid #ccc;
+}

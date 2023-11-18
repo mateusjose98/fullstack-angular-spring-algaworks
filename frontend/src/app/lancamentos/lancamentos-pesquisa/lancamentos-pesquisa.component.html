@@ -108,7 +108,11 @@
             </td>
             <td class="col-acoes">
               <span class="p-column-title">Ações</span>
-              <a pTooltip="Editar" tooltipPosition="top" pButton
+              <a
+                [routerLink]="['/lancamentos', lancamento.id]"
+                pTooltip="Editar"
+                tooltipPosition="top"
+                pButton
                 ><i class="pi pi-pencil"></i
               ></a>
               <a
@@ -124,7 +128,11 @@
       </p-table>
     </div>
     <div class="col-12">
-      <a pButton label="Novo lançamento"></a>
+      <a
+        pButton
+        [routerLink]="['/lancamentos/novo']"
+        label="Novo lançamento"
+      ></a>
     </div>
   </div>
 </div>

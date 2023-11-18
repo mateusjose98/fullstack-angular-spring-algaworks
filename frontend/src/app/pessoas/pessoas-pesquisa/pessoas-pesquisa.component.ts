@@ -1,9 +1,10 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { PessoaService } from '../pessoa.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ErrorHandlerService } from 'src/app/core/error-handler.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Table, TableLazyLoadEvent } from 'primeng/table';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-pessoas-pesquisa',
@@ -11,7 +12,7 @@ import { Table, TableLazyLoadEvent } from 'primeng/table';
   styleUrls: ['./pessoas-pesquisa.component.css'],
   providers: [ConfirmationService],
 })
-export class PessoasPesquisaComponent {
+export default class PessoasPesquisaComponent implements OnInit {
   nome: string = '';
   pessoas = [];
   totalRegistros = 0;
@@ -22,8 +23,12 @@ export class PessoasPesquisaComponent {
     private service: PessoaService,
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
-    private errorService: ErrorHandlerService
+    private errorService: ErrorHandlerService,
+    private title: Title
   ) {}
+  ngOnInit(): void {
+    this.title.setTitle('Pessoas');
+  }
 
   pesquisar(pagina: number) {
     this.service

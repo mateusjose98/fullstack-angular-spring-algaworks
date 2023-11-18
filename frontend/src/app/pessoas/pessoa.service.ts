@@ -18,6 +18,10 @@ export class PessoaService {
   }
 
   excluir(id: number): Observable<void> {
-    return this.http.delete<void>(this.url + '/' + id);
+    return this.http.delete<void>(`${this.url}/${id}`);
+  }
+
+  ativar(id: number, ativo: boolean): Observable<void> {
+    return this.http.put<void>(`${this.url}/${id}/ativo`, ativo);
   }
 }

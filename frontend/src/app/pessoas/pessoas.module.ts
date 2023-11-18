@@ -16,7 +16,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DropdownModule } from 'primeng/dropdown';
 
 import { InputMaskModule } from 'primeng/inputmask';
-
+import { TagModule } from 'primeng/tag';
 import { SharedModule } from '../shared/shared.module';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
@@ -41,6 +41,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     SharedModule,
     ToastModule,
     ConfirmDialogModule,
+    TagModule
   ],
   exports: [PessoaCadastroComponent, PessoasPesquisaComponent],
   providers: [],

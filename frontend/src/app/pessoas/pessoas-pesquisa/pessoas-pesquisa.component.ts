@@ -15,6 +15,7 @@ export class PessoasPesquisaComponent {
   nome: string = '';
   pessoas = [];
   totalRegistros = 0;
+  paginaAtual = 0;
   @ViewChild('tabela') private grid!: Table;
 
   constructor(
@@ -28,8 +29,22 @@ export class PessoasPesquisaComponent {
     this.service.pesquisar({ nome: this.nome, pagina }).subscribe((res) => {
       this.pessoas = res.content;
       this.totalRegistros = res.totalElements;
+      console.log(res.number);
+      this.paginaAtual = res.number;
     });
-    console.log(this.pessoas);
+  }
+
+  ativar(id: number, deveAtivar: boolean) {
+    this.service.ativar(id, !deveAtivar).subscribe((res) => {
+      this.pesquisar(this.paginaAtual);
+
+      this.sucesso(
+        id,
+        deveAtivar
+          ? 'Pessoa inativada com sucesso!'
+          : 'Pessoa ativa com sucesso!'
+      );
+    });
   }
 
   aoMudarPagina(event: TableLazyLoadEvent) {
@@ -51,7 +66,7 @@ export class PessoasPesquisaComponent {
           next: () => {
             this.grid.first = 0;
             this.pesquisar(0);
-            this.sucesso(id);
+            this.sucesso(id, 'Pessoa excluída: ' + id);
           },
           error: (error: HttpErrorResponse) => {
             this.errorService.handle(error);
@@ -61,11 +76,11 @@ export class PessoasPesquisaComponent {
     });
   }
 
-  sucesso(id: number) {
+  sucesso(id: number, msg: string) {
     this.messageService.add({
       severity: 'success',
       summary: 'Success',
-      detail: 'Pessoa excluída: ' + id,
+      detail: msg,
     });
   }
 }
